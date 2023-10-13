@@ -9,6 +9,7 @@ namespace FitnessConApp.BusinessLogic.Model
     /// <summary>
     /// Пользователь
     /// </summary>
+    [Serializable]
     public class User
     {
 
