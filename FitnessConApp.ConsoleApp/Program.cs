@@ -17,22 +17,52 @@ namespace FitnessConApp.ConsoleApp
             
             var name = Console.ReadLine();
 
-            Console.WriteLine("Введите пол");
-            var gender = Console.ReadLine();
+            var userController = new UserController(name);
 
-            Console.WriteLine("Ввежите дату рождения: ");
-            var birthDay =DateTime.Parse(Console.ReadLine());
+            Console.WriteLine(userController.CurrentUser);
+            if(userController.IsNewUser)
+            {
+                Console.Write("Введите пол: ");
+                var gender = Console.ReadLine();
+                DateTime birthDate = ParseBirthDate();
+                double weight = ParseDouble("вес");
+                double height = ParseDouble("рост");
 
-            Console.WriteLine("Введите вес");
-            var weight = double.Parse(Console.ReadLine());
+                userController.SetNewUserData(gender, birthDate, weight, height);
+            }
+            Console.ReadLine();
+        }
 
-            Console.WriteLine("Введите рост");
-            var height = double.Parse(Console.ReadLine());
+        private static double ParseDouble(string name) 
+        {
+            do
+            {
+                Console.Write($"Введите {name}: ");
+                if (Double.TryParse(Console.ReadLine(), out double value))
+                {
+                    return value;
+                }
+                else
+                {
+                    Console.WriteLine($"Неверный формат");
+                }
+            } while (true);
+        }
 
-
-            var user = new UserController(name, gender, birthDay, weight, height);
-
-            user.Save();
+        private static DateTime ParseBirthDate()
+        {
+            do
+            {
+                Console.Write("Введите дату рождения в формате (dd.MM.yyyy):  ");
+                if (DateTime.TryParse(Console.ReadLine(), out DateTime birthDate))
+                {
+                    return birthDate;
+                }
+                else
+                {
+                    Console.WriteLine("Некорректная дата рождения");
+                }
+            } while (true);
         }
     }
 }
